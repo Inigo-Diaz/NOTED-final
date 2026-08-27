@@ -28,7 +28,7 @@
 
 
     let flashcardSets =
-        JSON.parse(localStorage.getItem('flashcardSets'));
+        JSON.parse(localStorage.getItem('flashcardSets')) || {};
 
 
     let currentSetId = null;

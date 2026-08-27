@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../../menu_style.css">
+    <title>Noted - Essay Timer</title>
+</head>
+<body class="essay-timer-body">
+    <header class="timer-header">
+        <h1>Noted!</h1>
+        <h1>Essay Timer</h1>
+        <p id="setLabel">Practice an essay and track your quickest attempt.</p>
+    </header>
+
+    <button class="back-btn timer-back" onclick="window.location.href='../../study_menu.html'">&#8592; Study Set Menu</button>
+
+    <main class="timer-page">
+        <div class="timer-layout">
+            <section class="timer-panel">
+                <h2>Essay Stopwatch</h2>
+                <div id="timerReadout" class="timer-readout" aria-live="polite">00:00:00.0</div>
+                <div class="timer-actions">
+                    <button id="startButton" class="cs-btn" data-action="start">Start</button>
+                    <button id="pauseButton" class="cs-btn" data-action="pause" disabled>Pause</button>
+                    <button id="finishButton" class="cs-btn" data-action="finish" disabled>Finish Attempt</button>
+                    <button id="resetButton" class="cs-btn" data-action="reset">Reset</button>
+                </div>
+                <p id="timerStatus" class="timer-status" aria-live="polite">Ready for a new attempt.</p>
+            </section>
+
+            <aside class="timer-panel">
+                <h2>Your Results</h2>
+                <dl class="stats">
+                    <div class="stat"><dt>Best time</dt><dd id="bestTime">No attempts</dd></div>
+                    <div class="stat"><dt>Attempts</dt><dd id="attemptCount">0</dd></div>
+                </dl>
+                <div class="attempts">
+                    <h3>Attempt history</h3>
+                    <ol id="attemptHistory"></ol>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <script src="essaytime_function.js"></script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../../menu_style.css">
+    <title>Noted - Hangman</title>
+
+</head>
+<header>
+    <h1>Noted!</h1>
+    <h1>Hangman</h1>
+</header>
+<body class="hangman-body">
+        <button class="back-btn" onclick="window.location.href='../../study_menu.html'">&#8592; Study Set Menu</button>
+
+        <div class="game-modal">
+            <div class="content">
+                <h4>Game Over!</h4>
+                <p>Correct Answer: <b></b></p>
+                <button class="play-again">Play Again</button>
+            </div>
+        </div>
+
+        <div class="hangman-box">
+            <div class="hangman-game">
+                <img src="../../../../aesthetic_tools/images/hangman-game/hangman-0.png" alt="Hangman Image" class="hangman-image">
+                <p></p>
+            </div>
+
+            <div class="letters-area">
+                <ul class="hangman-items">
+                </ul>
+
+                <h4 class="definition-text">
+                    Definition text will be displayed here.
+                </h4>
+
+                <h4 class="incorrect-guesses">
+                    Incorrect Guesses: 
+                    <b>0/8</b>
+                </h4>
+
+                <div class="hangman-keyboard">
+
+                </div>
+            </div>
+        </div>
+
+    <script src="flashcardtest.js"></script>
+    <script src="hangman-function.js"></script>
+
+</body>
+</html>

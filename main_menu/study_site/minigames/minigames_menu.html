@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../menu_style.css">
+    <title>Noted - Study Set</title>
+</head>
+<body>
+    <h1>Noted!</h1>
+    <div class="menu-container">
+        <div class="notes-area">
+            <div class="new-notes">
+                <h1 id="setName">Study Set</h1>
+            </div>
+            <p id="setSummary"></p>
+            <button class="cs-btn" onclick="window.location.href='hangman/hangman.html'">Play Hangman</button>
+            <button class="cs-btn" onclick="window.location.href='crossword/crossword.html'">Play Crossword</button>
+        </div>
+        <button class="back-btn" onclick="window.location.href='../study_menu.html'">&#8592; All Sets</button>
+    </div>
+
+    <script>
+        const selectedSet = JSON.parse(localStorage.getItem('selectedStudySet'));
+        const setName = document.getElementById('setName');
+        const setSummary = document.getElementById('setSummary');
+
+        if (selectedSet) {
+            const cardCount = Array.isArray(selectedSet.cards) ? selectedSet.cards.length : 0;
+            setName.textContent = selectedSet.name || 'Study Set';
+            setSummary.textContent = `${cardCount} ${cardCount === 1 ? 'card' : 'cards'} available for study.`;
+        } else {
+            setSummary.textContent = 'No study set selected.';
+        }
+    </script>
+</body>
+</html>

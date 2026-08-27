@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="quizstyle.css">
+    <title>Flashcard System</title>
+</head>
+
+<body>
+<div class="container">
+<!-- ============================= HTML CODE ============================== -->
+    <h1>My Flashcards</h1>
+
+    <!-- =============================
+         SET LIBRARY
+    ============================== -->
+
+    <div id="setLibrary" class="set-library">
+
+        <div class="set-library-header">
+            <h2>My Sets</h2>
+
+            <button
+                class="create-set-btn"
+                onclick="openCreateSetModal()">
+                + Create Set
+            </button>
+        </div>
+
+        <div id="setsContainer" class="sets-container"></div>
+
+    </div>
+
+
+    <!-- =============================
+         CURRENT SET
+    ============================== -->
+
+    <div id="flashcardArea" style="display: none;">
+
+        <div class="current-set">
+
+            <h2 id="currentSetTitle"></h2>
+
+            <button
+                class="back-btn"
+                onclick="showSetLibrary()">
+                ← All Sets
+            </button>
+
+        </div>
+
+
+        <!-- Add/Edit Card -->
+
+        <form class="card-form" id="cardForm">
+
+            <h3 id="formTitle">Add New Flashcard</h3>
+
+            <input type="hidden" id="editIndex" value="">
+
+            <input type="text" id="termInput" placeholder="Term" required>
+
+            <textarea id="defInput" placeholder="Definition" rows="4" required
+            ></textarea>
+
+            <button
+                type="submit"
+                id="submitBtn">
+                Add Card
+            </button>
+
+        </form>
+
+
+        <!-- Flashcard Deck -->
+
+        <div id="deckContainer"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =============================
+     CREATE SET MODAL
+============================== -->
+
+<div id="setModal" class="modal-overlay">
+
+    <div class="modal">
+        <h2>Create Flashcard Set</h2>
+        <input
+            type="text"
+            id="setNameInput"
+            placeholder="Set name e.g. Biology"
+        >
+        <div class="modal-buttons">
+            <button
+                class="cancel-btn"
+                onclick="closeSetModal()">
+                Cancel
+            </button>
+
+            <button
+                class="confirm-btn"
+                onclick="createSet()">
+                Create Set
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    /* =====================================
+       ELEMENTS
+    ===================================== */
+
+    const cardForm = document.getElementById('cardForm');
+    const deckContainer = document.getElementById('deckContainer');
+
+    const termInput = document.getElementById('termInput');
+    const defInput = document.getElementById('defInput');
+
+    const editIndex = document.getElementById('editIndex');
+
+    const formTitle = document.getElementById('formTitle');
+    const submitBtn = document.getElementById('submitBtn');
+
+    const setsContainer = document.getElementById('setsContainer');
+
+    const setLibrary = document.getElementById('setLibrary');
+    const flashcardArea = document.getElementById('flashcardArea');
+
+    const currentSetTitle =
+        document.getElementById('currentSetTitle');
+
+    const setModal =
+        document.getElementById('setModal');
+
+    const setNameInput =
+        document.getElementById('setNameInput');
+
+
+    /* =====================================
+       FLASHCARD DATA
+    ===================================== */
+
+    /*
+        Data structure:
+
+        {
+            "set-id": {
+                name: "Biology",
+                cards: [
+                    {
+                        term: "...",
+                        definition: "..."
+                    }
+                ]
+            }
+        }
+    */
+
+    let flashcardSets =
+        JSON.parse(localStorage.getItem('flashcardSets'));
+
+
+    /*
+        If the user has an older version of the
+        app, migrate their existing cards.
+    */
+
+    if (!flashcardSets) {
+
+        const oldCards =
+            JSON.parse(localStorage.getItem('myFlashcards')) || [];
+
+        flashcardSets = {};
+
+        if (oldCards.length > 0) {
+            flashcardSets["set-" + Date.now()] = {
+                name: "My Flashcards",
+                cards: oldCards
+            };
+        }
+
+        saveSets();
+    }
+
+
+    let currentSetId = null;
+
+
+    /* =====================================
+       SAVE DATA
+    ===================================== */
+
+    function saveSets() {
+
+        localStorage.setItem(
+            'flashcardSets',
+            JSON.stringify(flashcardSets)
+        );
+
+    }
+
+
+    /* =====================================
+       CREATE FLASHCARD SET POPUP
+    ===================================== */
+
+    function openCreateSetModal() {
+
+        setNameInput.value = "";
+
+        setModal.style.display = "flex";
+
+        setTimeout(() => {
+            setNameInput.focus();
+        }, 100);
+
+    }
+
+
+    function closeSetModal() {
+
+        setModal.style.display = "none";
+
+    }
+
+
+    /* =====================================
+       CREATE SET
+    ===================================== */
+
+    function createSet() {
+
+        const name =
+            setNameInput.value.trim();
+
+        if (!name) {
+
+            alert("Please enter a name for your set.");
+
+            return;
+
+        }
+
+        const id =
+            "set-" +
+            Date.now() +
+            "-" +
+            Math.random()
+                .toString(36)
+                .substring(2, 8);
+
+        flashcardSets[id] = {
+            name: name,
+            cards: []
+        };
+        saveSets();
+        closeSetModal();
+        renderSets();
+        openSet(id);
+    }
+
+
+    /* =====================================
+       RENDER SET LIBRARY
+    ===================================== */
+
+    function renderSets() {
+        setsContainer.innerHTML = "";
+        const setIds =
+            Object.keys(flashcardSets);
+        if (setIds.length === 0) {
+            setsContainer.innerHTML = `
+                <div class="empty-state">
+                    You don't have any flashcard sets yet.
+                    <br><br>
+                    Click <strong>+ Create Set</strong> to get started.
+                </div>
+            `;
+            return;
+        }
+
+        setIds.forEach(id => {
+            const set =
+                flashcardSets[id];
+            const cardCount =
+                set.cards.length;
+            const card =
+                document.createElement("div");
+
+            card.className = "set-card";
+
+
+            if (id === currentSetId) {
+
+                card.classList.add("active");
+
+            }
+
+            /*What is displayed on a course name in set library*/
+            card.innerHTML = `
+
+                <h3>${escapeHTML(set.name)}</h3>
+
+                <p>
+                    ${cardCount}
+                    ${cardCount === 1 ? "card" : "cards"}
+                </p>
+
+                <div class="set-actions">
+
+                    <button
+                        class="rename-set-btn"
+                        onclick="renameSet(event, '${id}')">
+                        Rename
+                    </button>
+
+                    <button
+                        class="delete-set-btn"
+                        onclick="deleteSet(event, '${id}')">
+                        Delete
+                    </button>
+
+                </div>
+            `;
+
+
+            card.addEventListener("click", () => {
+
+                openSet(id);
+
+            });
+
+
+            setsContainer.appendChild(card);
+
+        });
+
+    }
+
+
+    /* =====================================
+       OPEN SET
+    ===================================== */
+
+    function openSet(id) {
+
+        currentSetId = id;
+
+        const set =
+            flashcardSets[id];
+
+
+        if (!set) return;
+
+
+        setLibrary.style.display = "none";
+
+        flashcardArea.style.display = "block";
+
+
+        currentSetTitle.innerText =
+            set.name;
+
+
+        resetCardForm();
+
+        renderCards();
+
+    }
+
+
+    /* =====================================
+       RETURN TO SET LIBRARY
+    ===================================== */
+
+    function showSetLibrary() {
+
+        currentSetId = null;
+
+        flashcardArea.style.display = "none";
+
+        setLibrary.style.display = "block";
+
+        resetCardForm();
+
+        renderSets();
+
+    }
+
+
+    /* =====================================
+       RENDER FLASHCARDS
+    ===================================== */
+
+    function renderCards() {
+
+        deckContainer.innerHTML = "";
+
+
+        if (!currentSetId) return;
+
+
+        const cards =
+            flashcardSets[currentSetId].cards;
+
+
+        if (cards.length === 0) {
+
+            deckContainer.innerHTML = `
+                <div class="empty-state">
+                    No flashcards in this set yet.
+                    <br><br>
+                    Add your first card above!
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        cards.forEach((card, index) => {
+
+            const wrapper =
+                document.createElement("div");
+
+            wrapper.className =
+                "flashcard-wrapper";
+
+
+            const flashcard =
+                document.createElement("div");
+
+            flashcard.className =
+                "flashcard";
+
+
+            const subtitle =
+                document.createElement("span");
+
+            subtitle.className =
+                "card-subtitle";
+
+            subtitle.innerText =
+                "Click to Flip";
+
+
+            const text =
+                document.createElement("div");
+
+            text.className =
+                "card-text";
+
+            text.innerText =
+                card.term;
+
+
+            flashcard.appendChild(subtitle);
+
+            flashcard.appendChild(text);
+
+
+            flashcard.dataset.term =
+                card.term;
+
+            flashcard.dataset.definition =
+                card.definition;
+
+
+            flashcard.addEventListener(
+                "click",
+                () => flipCard(flashcard)
+            );
+
+
+            const actions =
+                document.createElement("div");
+
+            actions.className =
+                "card-actions";
+
+
+            const editButton =
+                document.createElement("button");
+
+            editButton.className =
+                "btn-edit";
+
+            editButton.innerText =
+                "Edit";
+
+
+            editButton.addEventListener(
+                "click",
+                () => editCard(index)
+            );
+
+
+            const deleteButton =
+                document.createElement("button");
+
+            deleteButton.className =
+                "btn-delete";
+
+            deleteButton.innerText =
+                "Delete";
+
+
+            deleteButton.addEventListener(
+                "click",
+                () => deleteCard(index)
+            );
+
+
+            actions.appendChild(editButton);
+
+            actions.appendChild(deleteButton);
+
+
+            wrapper.appendChild(flashcard);
+
+            wrapper.appendChild(actions);
+
+
+            deckContainer.appendChild(wrapper);
+
+        });
+
+    }
+
+
+    /* =====================================
+       FLIP CARD
+    ===================================== */
+
+    function flipCard(card) {
+
+        const textElement =
+            card.querySelector(".card-text");
+
+
+        card.classList.toggle("flipped");
+
+
+        if (card.classList.contains("flipped")) {
+
+            textElement.innerText =
+                card.dataset.definition;
+
+        } else {
+
+            textElement.innerText =
+                card.dataset.term;
+
+        }
+
+    }
+
+
+    /* =====================================
+       ADD / EDIT CARD
+    ===================================== */
+
+    cardForm.addEventListener(
+        "submit",
+        function(e) {
+
+            e.preventDefault();
+
+
+            if (!currentSetId) {
+
+                alert("Please select a flashcard set first.");
+
+                return;
+
+            }
+
+
+            const term =
+                termInput.value.trim();
+
+            const definition =
+                defInput.value.trim();
+
+
+            const index =
+                editIndex.value;
+
+
+            const cards =
+                flashcardSets[currentSetId].cards;
+
+
+            if (index === "") {
+
+                /*
+                    ADD CARD
+                */
+
+                cards.push({
+
+                    term: term,
+
+                    definition: definition
+
+                });
+
+            } else {
+
+                /*
+                    UPDATE CARD
+                */
+
+                cards[index] = {
+
+                    term: term,
+
+                    definition: definition
+
+                };
+
+            }
+
+
+            saveSets();
+
+            resetCardForm();
+
+            renderCards();
+
+            renderSets();
+
+        }
+    );
+
+
+    /* =====================================
+       EDIT CARD
+    ===================================== */
+
+    function editCard(index) {
+
+        const card =
+            flashcardSets[currentSetId].cards[index];
+
+
+        termInput.value =
+            card.term;
+
+        defInput.value =
+            card.definition;
+
+
+        editIndex.value =
+            index;
+
+
+        formTitle.innerText =
+            "Edit Flashcard";
+
+        submitBtn.innerText =
+            "Save Changes";
+
+
+        window.scrollTo({
+
+            top: 0,
+
+            behavior: "smooth"
+
+        });
+
+    }
+
+
+    /* =====================================
+       DELETE CARD
+    ===================================== */
+
+    function deleteCard(index) {
+
+        if (!confirm(
+            "Are you sure you want to delete this flashcard?"
+        )) {
+
+            return;
+
+        }
+
+
+        flashcardSets[currentSetId].cards.splice(
+            index,
+            1
+        );
+
+
+        saveSets();
+
+        renderCards();
+
+        renderSets();
+
+    }
+
+
+    /* =====================================
+       RESET CARD FORM
+    ===================================== */
+
+    function resetCardForm() {
+
+        cardForm.reset();
+
+        editIndex.value = "";
+
+        formTitle.innerText =
+            "Add New Flashcard";
+
+        submitBtn.innerText =
+            "Add Card";
+
+    }
+
+
+    /* =====================================
+       RENAME SET
+    ===================================== */
+
+    function renameSet(event, id) {
+
+        event.stopPropagation();
+
+
+        const currentName =
+            flashcardSets[id].name;
+
+
+        const newName =
+            prompt(
+                "Enter a new name for this set:",
+                currentName
+            );
+
+
+        if (!newName) return;
+
+
+        const trimmedName =
+            newName.trim();
+
+
+        if (!trimmedName) return;
+
+
+        flashcardSets[id].name =
+            trimmedName;
+
+
+        saveSets();
+
+        renderSets();
+
+
+        if (currentSetId === id) {
+
+            currentSetTitle.innerText =
+                trimmedName;
+
+        }
+
+    }
+
+
+    /* =====================================
+       DELETE SET
+    ===================================== */
+
+    function deleteSet(event, id) {
+
+        event.stopPropagation();
+
+
+        const set =
+            flashcardSets[id];
+
+
+        const confirmed =
+            confirm(
+                `Delete "${set.name}" and all ${set.cards.length} flashcards inside it?`
+            );
+
+
+        if (!confirmed) return;
+
+
+        delete flashcardSets[id];
+
+
+        saveSets();
+
+
+        if (currentSetId === id) {
+
+            showSetLibrary();
+
+        } else {
+
+            renderSets();
+
+        }
+
+    }
+
+
+    /* =====================================
+       ESCAPE HTML
+       Prevents HTML being injected into
+       set names.
+    ===================================== */
+
+    function escapeHTML(text) {
+
+        const div =
+            document.createElement("div");
+
+        div.textContent =
+            text;
+
+        return div.innerHTML;
+
+    }
+
+
+    /* =====================================
+       CLOSE MODAL WHEN CLICKING OUTSIDE
+    ===================================== */
+
+    setModal.addEventListener(
+        "click",
+        function(e) {
+
+            if (e.target === setModal) {
+
+                closeSetModal();
+
+            }
+
+        }
+    );
+
+
+    /* =====================================
+       ENTER KEY CREATES SET
+    ===================================== */
+
+    setNameInput.addEventListener(
+        "keydown",
+        function(e) {
+
+            if (e.key === "Enter") {
+
+                e.preventDefault();
+
+                createSet();
+
+            }
+
+        }
+    );
+
+
+    /* =====================================
+       INITIAL LOAD
+    ===================================== */
+
+    renderSets();
+
+    /**/
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../menu_style.css">
+    <title>Noted</title>
+</head>
+<body>
+
+<div class="menu-container">
+      <h1>Noted!</h1>
+
+    <div id="notesArea" class="notes-area">
+      <button class="back-btn" onclick="window.location.href='../user_identifier.html'"> ← Back </button>
+
+      <div class="new-notes">
+        <h1>Flashcard Sets</h1>
+        <button class="cs-btn" onclick="createSetPopup()">+ New Notes</button>
+      </div>
+
+      <div id="setsContainer" class="sets-container">
+      </div>
+
+    </div>
+
+    <!-------------------------Current Flashcard Set to Create the Flashcards---------------------->
+
+    <div id="flashcardArea" style="display: none;">
+
+        <div class="current-set">
+
+            <h2 id="currentSetTitle"></h2>
+
+            <button class="back-btn" onclick="exitCurrent()"> ← Back </button>
+
+        </div>
+
+        <form class="flashcard-space" id="flashcardForm">
+
+            <h3 id="formTitle">
+                Add New Flashcard
+            </h3>
+
+            <div class="flashcard">
+
+            <input type="hidden" id="editIndex" value="">
+            <input type="text" id="yourTerm" placeholder="Term" required>
+            <textarea id="yourDef" placeholder="Definition" rows="4" required></textarea>
+            <button class="submit-note" type="submit" id="submitBtn"> Add Card </button>
+
+            </div>
+
+        </form>
+
+
+        <!-- Flashcard Deck -->
+
+        <div id="yourNotes"></div>
+
+    </div>
+
+
+
+</div>
+
+<!----------------------------------------Pop-up to enter course name------------------------------------------>
+
+<div id="setPopUp" class="set-popup">
+
+    <div class="modal">
+
+        <h2>Create Flashcard Set</h2>
+
+        <input
+            type="text"
+            id="setNameInput"
+            placeholder="Set name e.g. Biology"
+        >
+
+        <div class="modal-buttons">
+
+            <button
+                class="cancel-btn"
+                onclick="closePopup()">
+                Cancel
+            </button>
+
+            <button
+                class="confirm-btn"
+                onclick="createSet()">
+                Create Set
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+  <script src="create_folder/flashcard_script.js"></script>
+  <script src="../../../colour-picker.js"></script>
+  
+</body>
+</html>

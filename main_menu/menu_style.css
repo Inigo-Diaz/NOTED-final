@@ -1,0 +1,901 @@
+/* Loading the external font */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+
+.dm-sans {
+  font-family: "DM Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 900;
+  font-style: normal;
+}
+
+body {
+   font-family: "DM Sans", sans-serif;
+   --background-color:rgb(158, 213, 231);
+   --surface-color: oklch(from var(--background-color) calc(l * 1.2) c h);
+   --text-color: black;
+   --button-text-color: red;
+   background: var(--background-color);
+   transition: all 0.2s ease;
+   padding: 0 10px;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+}
+
+
+h1 {
+    text-align: center;
+    color: var(--text-color);
+    font-family: "DM Sans", sans-serif;
+}
+
+/*---------------------------Colour picker!--------------------------*/
+
+.colorpalette {
+   padding: 0.75rem 1.5rem;
+   cursor:pointer;
+   margin-left: 1rem;
+}
+
+header > div {
+   display: flex;
+   gap: 1em;
+}
+
+label[for="background-color-input"] {
+   background: var(--surface-color);
+   padding: 0.3em 0.7em 0.3em 0.7em;
+   font-size: 35px;
+   border-radius: 0.5em;
+   display: flex;
+   align-items: center;
+   gap: 1em;
+
+   margin-right: 50em;
+   margin-left: 1em;
+   flex-direction: row;
+}
+
+#background-color-input {
+   width: 3em;
+   height: 2em;
+   background: none;
+   border: none;
+}
+
+
+
+/*--------------For buttons-------------*/
+
+.identify_user {
+   display: flex;
+   gap: 34px;
+}
+
+.back-btn, .noted-button {
+   padding: 9px 14px;
+   background: white;
+   box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+   font-family: "DM Sans", sans-serif;
+   border: none;
+   border-radius: 5px;
+   font-weight: bold;
+   cursor: pointer;
+}
+
+.button_minitext {
+    font-size: 15px;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+}
+
+/*--------------For input boxes-------------*/
+
+input {
+   color: var(--text-color);
+   font-family: "DM Sans", sans-serif;
+   font-size: 35px;
+   padding: 15px 25px;
+   border-radius: 12px;
+}
+
+
+/*------------------------------ Menu to navigate flashcard sets -------------------------------*/
+.menu-container {
+   max-width: 700px;
+   width: 100%;
+}
+
+.notes-area {
+   background: var(--surface-color);
+   padding: 20px;
+   border-radius: 10px;
+   box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+   margin-bottom: 20px;
+}
+
+.new-notes {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   margin-bottom: 15px;
+   gap: 10px;
+}
+
+.cs-btn {
+   padding: 9px 14px;
+   background: white;
+   box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+   font-family: "DM Sans", sans-serif;
+   border: none;
+   border-radius: 5px;
+   font-weight: bold;
+   cursor: pointer;
+}
+
+.sets-container {
+   display: grid;
+   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+   gap: 12px;
+}
+
+
+/*------------------------------------ For the flashcards --------------------------------------*/
+
+
+/*Flashcard buttons*/
+
+.rename-set-btn,
+.delete-set-btn {
+   border: none;
+   padding: 5px 8px;
+   border-radius: 4px;
+   font-size: 0.8rem;
+   color: white;
+}
+
+.rename-set-btn {
+   background: #f39c12;
+}
+
+.rename-set-btn:hover {
+   background: #d68910;
+}
+
+.delete-set-btn {
+   background: #e74c3c;
+}
+
+.delete-set-btn:hover {
+   background: #c0392b;
+}
+
+.current-set {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   margin-bottom: 15px;
+}
+
+        .current-set h2 {
+            color: #333;
+        }
+
+.flashcard {
+  display: flex;
+  justify-content: center; /* Centers horizontally */
+  align-items: center;
+  gap: 34px;
+  border-radius: 10px;
+  padding: 20px;
+
+  margin-bottom: 20px;
+  margin-left: 100px;
+  margin-right: 100px; 
+  flex-direction: column;
+}
+
+.flashcard input, .flashcard textarea {
+  width: 100%;
+  resize: vertical;
+  padding: 10px;
+  margin-left: 50px;
+  margin-right: 50px; 
+}
+
+/*--------------Stylises the flashcards-------------*/
+
+.setname {
+   display: flex;
+   justify-content: center; /* Centers horizontally */
+   align-items: center;
+   gap: 34px;
+   margin-bottom: 25px;
+}
+
+textarea {
+   font-family: "DM Sans", sans-serif;
+   font-size: 35px;
+   border-radius: 12px;
+   padding: 20px;
+   margin-bottom: 20px;
+   display: flex;
+   flex-direction: column;
+   gap: 10px;
+}
+
+
+.addcard {
+   color:rgb(58, 137, 255);
+   font-family: "DM Sans", sans-serif;
+   font-size: 35px;
+   padding: 15px 25px;
+   border-radius: 12px;
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   gap: 34px;
+   margin-top: 20px;
+   margin-left: 200px;
+   margin-right: 200px;
+   align-content: center;
+   background:bisque;
+   border-radius: 12px;
+}
+
+/*--------------Stylises menu buttons-------------*/
+
+.submit-note {
+   font-family: "DM Sans", sans-serif;
+   font-size: 35px;
+   padding: 15px 25px;
+   border-radius: 12px;
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   gap: 34px;
+   margin-top: 20px;
+   margin-left: 200px;
+   margin-right: 200px;
+   align-content: center;
+   border-radius: 12px;
+}
+
+/* Empty state */
+.no-cards { 
+   font-family: "DM Sans", sans-serif;
+   text-align: center; 
+   color: #888; 
+   margin-top: 40px; }
+
+
+/* Flashcard styles */
+
+.flashcard-item { 
+   background: var(--surface-color); 
+   font-family: "DM Sans", sans-serif;
+   border-radius: 10px; 
+   box-shadow: 0 6px 12px rgba(0,0,0,0.1); 
+   padding: 30px 20px; 
+   margin-left: 200px;
+   margin-right: 200px;
+   
+   min-height: 200px; 
+   display: flex; 
+   align-items: center; 
+   justify-content: center; 
+   text-align: center; 
+   cursor: pointer; 
+   transition: transform 0.3s ease; 
+   position: relative;
+
+ }
+
+.card button:hover { 
+   background: #357abd; 
+}
+
+.flashcard-wrapper { 
+   position: relative; 
+   margin-bottom: 15px; 
+}
+
+.flashcard-item:hover { 
+   transform: translateY(-3px);
+}
+
+.flashcard-item.flipped { 
+   background: #2c3e50; 
+   color: white; 
+}
+
+.card-text { 
+   font-family: "DM Sans", sans-serif;
+   font-size: 1.25rem; 
+   font-weight: 500; 
+}
+.card-subtitle { 
+   font-family: "DM Sans", sans-serif;
+   font-size: 0.8rem; 
+   color: var(--text-color);
+   position: absolute; 
+   top: 10px; 
+   left: 10px; 
+   text-transform: uppercase;
+}
+
+
+.flashcard-item.flipped .card-subtitle { 
+   color: var(--text-color);
+}
+
+.card-actions { 
+   display: flex; 
+   justify-content: flex-end; 
+   gap: 10px; 
+   margin-top: 5px;
+}
+
+
+
+.edit-button button { 
+   background: #f39c12; 
+   padding: 5px 10px; 
+   font-size: 0.85rem;
+   color: white; 
+   border: none; 
+   padding: 5px 10px; 
+   border-radius: 4px; 
+   cursor: pointer; 
+   font-size: 0.85rem; 
+
+   margin-bottom: 20px;
+   margin-left: 200px;
+   margin-right: 200px;
+
+   display: flex;
+   flex-direction: column;
+   gap: 10px;
+}
+
+.edit-button:hover button { 
+   background: #d68910; 
+}
+
+.delete-button button { 
+   background: #e74c3c; 
+   padding: 5px 10px; 
+   font-size: 0.85rem;
+   color: white; 
+   border: none; 
+   padding: 5px 10px; 
+   border-radius: 4px; 
+   cursor: pointer; 
+   font-size: 0.85rem;
+
+   margin-bottom: 20px;
+   margin-left: 200px;
+   margin-right: 200px;
+
+   display: flex;
+   flex-direction: column;
+   gap: 10px;
+
+}
+
+.delete-button:hover button { 
+   background: #c0392b;
+}
+
+/*---------------------------Flashcard Pop-up--------------------------*/
+        .set-popup {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .modal h2 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .modal input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .modal-buttons button {
+            padding: 9px 14px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .cancel-btn {
+            background: #ddd;
+        }
+
+        .confirm-btn {
+            background: #4a90e2;
+            color: white;
+        }
+
+
+
+/*------------------------------------Hangman Game-----------------------------------*/
+
+.hangman-body {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   min-height: 100vh;
+}
+
+/* Container for hangman game */
+
+.hangman-box {
+   width: 850px;
+   background: white;
+   display: flex;
+   gap: 70px;
+   align-items: flex-end;
+   padding: 60px 40px;
+   margin-left: 50px;
+   margin-right: 50px;
+   margin-bottom: 100px;
+   margin-top: 100px;
+   max-width: 1000px;
+   border-radius: 20px;
+   overflow:scroll;
+}
+
+/* Image of hangman */
+.hangman-image {
+   margin-right: 50px;
+   max-width: 300px;
+   max-height: 300px;
+}
+
+/* The blank spaces for the word */
+.hangman-items {
+   display: flex;
+   gap: 10px;
+   list-style: none;
+   align-items: center;
+   justify-content: center;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+.hangman-items .letter {
+   width: 28px;
+   font-size: 2rem;
+   font-weight: 600;
+   text-transform: uppercase;
+   margin-bottom: 40px;
+   border-bottom: 2px solid var(--text-color);
+}
+
+.hangman-items .letter.guessed {
+   border-color: transparent;
+   text-transform: uppercase;
+   margin: -40px 0px 35px;
+
+}
+
+.letters-area h4 {
+   text-align: center;
+   font-size: 1.1rem;
+   font-weight: 500;
+   margin-bottom: 15px;
+}
+
+.letters-area h4 b {
+   font-weight: 600;
+}
+
+.letters-area .incorrect-guesses b {
+   color: red;
+}
+
+.letters-area .hangman-keyboard {
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: center;
+   gap: 5px;
+}
+
+:where(.game-modal, .hangman-keyboard) button {
+   color: var(--text-color);
+   background: var(--background-color);
+   font-size: 1rem;
+   font-weight: 600;
+   cursor: pointer;
+   outline: none;
+   padding: 7px;
+   border: none;
+   border-radius: 5px;
+   text-transform: uppercase;
+   width: calc(100% / 9 - 5px);
+}
+
+.hangman-keyboard button {
+   width: 40px;
+   height: 40px;
+   font-size: 1rem;
+   font-weight: 600;
+   text-transform: uppercase;
+   cursor: pointer;
+   transition: var(--background-color) 0.3s ease, color 0.3s ease;
+}
+
+.hangman-keyboard button[disabled] {
+   opacity: 0.5;
+   pointer-events: none;
+}
+
+:where(.game-modal, .hangman-keyboard) button:hover {
+   background: var(--text-color);
+   color: var(--background-color);
+}
+
+.game-modal {
+   position: fixed;
+   left:0;
+   top: 0;
+   width: 100%;
+   height: 100%;
+   opacity: 0;
+   pointer-events: none;
+   z-index: 999;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   background: rgba(0, 0, 0, 0.5);
+   transition: opacity 0.4s ease;
+
+}
+
+.game-modal .content {
+   background: white;
+   max-width: 420px;
+   width: 100%;
+   text-align: center;
+   border-radius: 10px;
+   padding: 30px;
+}
+
+.game-modal h4 {
+   font-size: 2.5rem;
+   font-weight: 600;
+   margin-bottom: 20px;
+}
+
+.game-modal button {
+   width: 100%;
+   padding: 10px 33px;
+   border-radius: 10px;
+   align-items: center;
+   text-align: center;
+}
+
+.game-modal.show {
+   opacity: 1;
+   pointer-events: auto;
+}
+
+@media (max-width: 782px) {
+   .hangman-box {
+      flex-direction: column;
+      padding: 300px 150px;
+      align-items: center;
+   }
+
+   .hangman-game img {
+      max-width: 200px;
+   }
+
+   .hangman-game h1 {
+      display: none;
+   }
+}
+
+/*------------------------------------------------------------------ Crossword ------------------------------------------------------------------------*/
+
+body.crossword-body { 
+   min-height: 100vh; 
+   padding: 24px 16px 48px; }
+
+/* Headers */
+
+.crossword-header { 
+   width: 100%; 
+   max-width: 1100px; 
+   text-align: center; 
+   margin-bottom: 22px;
+}
+.crossword-header h1 { 
+   margin: 0; 
+}
+.crossword-header p { 
+   margin: 6px 0 0; 
+   font-size: 1rem; 
+}
+/* Main layouts */
+.crossword-page { 
+   max-width: 1100px; 
+   width: 100%; 
+}
+
+.crossword-layout { 
+   display: grid; 
+   grid-template-columns: minmax(420px, 1fr) minmax(280px, 360px); 
+   gap: 24px; 
+   align-items: start; 
+}
+
+.crossword-panel { 
+   background: var(--surface-color); 
+   padding: 24px; 
+   border: 1px solid rgba(0,0,0,0.12); 
+   border-radius: 10px; 
+   box-shadow: 0 8px 18px rgba(0,0,0,0.08); 
+}
+
+.board-panel { 
+   overflow: auto; 
+}
+
+/* for crossword grid */
+.panel-heading { 
+   margin: 0 0 16px; 
+   color: #333; 
+   font-size: 1.25rem; 
+}
+
+.crossword-grid { 
+   border-collapse: separate; 
+   border-spacing: 3px; 
+   margin: auto; 
+   background: #111; padding: 3px; border-radius: 5px; 
+}
+.crossword-grid td { 
+   width: 38px; 
+   height: 38px; 
+   min-width: 38px; 
+   padding: 0; 
+   border: 0; 
+   background: #111; 
+}
+.crossword-grid td.cell { 
+   background: white; 
+}
+.crossword-grid input { 
+   box-sizing: border-box; 
+   width: 100%; 
+   height: 100%; 
+   border: 0; 
+   border-radius: 0; 
+   padding: 0; 
+   background: transparent; 
+   color: #111; 
+   font-size: 1.25rem; 
+   font-weight: bold; 
+   text-align: center; 
+   text-transform: uppercase; 
+}
+.crossword-grid input:focus { outline: 3px solid #e67e22; outline-offset: -3px; background: #fff4e8; }
+.crossword-grid input:not(:placeholder-shown) { background: #fff8ef; }
+
+/* Definitions of flashcards */
+.clues { 
+   display: grid; 
+   gap: 10px; 
+}
+.clue { 
+   display: grid; 
+   grid-template-columns: 30px 1fr; 
+   gap: 8px; 
+   width: 100%; 
+   box-sizing: border-box; 
+   text-align: left; 
+   padding: 11px; 
+   border: 1px solid rgba(0,0,0,0.15); 
+   background: rgba(255,255,255,0.55); 
+   color: #111; 
+   font: inherit; 
+   line-height: 1.35; 
+   border-radius: 5px; 
+   cursor: pointer; 
+}
+.clue:hover, .clue:focus { 
+   background: white; 
+   border-color: #e67e22; 
+   outline: none; 
+}
+.clue strong { 
+   color: #d35400; 
+}
+.crossword-actions { 
+   display: flex; 
+   gap: 10px; 
+   flex-wrap: wrap; 
+   margin-top: 18px; 
+}
+
+.crossword-actions .cs-btn { 
+   flex: 1 1 150px; 
+   text-align: center; 
+}
+
+.crossword-message { 
+   min-height: 1.5em; 
+   margin: 16px 0 0; 
+   color: #333; 
+   font-weight: bold; 
+}
+
+.crossword-back { 
+   margin-bottom: 22px; 
+}
+@media (max-width: 800px) { 
+   .crossword-layout { 
+      grid-template-columns: 1fr; } 
+      .crossword-panel { 
+         padding: 16px; 
+      } 
+   }
+@media (max-width: 500px) { 
+   body.crossword-body { 
+      padding: 16px 8px 32px; } 
+      .crossword-grid { 
+         border-spacing: 2px; } 
+         .crossword-grid td { 
+            width: 29px; 
+            height: 29px; 
+            min-width: 29px; 
+         } 
+         .crossword-grid input { 
+            font-size: 1rem; 
+         } 
+      }
+
+/*---------------------------------------------------------------------------Essay Timer---------------------------------------------------*/
+
+body.essay-timer-body { 
+   min-height: 100vh; 
+   padding: 24px 16px 48px; 
+}
+.timer-header { 
+   width: 100%; 
+   max-width: 960px; 
+   text-align: center; 
+   margin-bottom: 22px; 
+}
+.timer-header h1 { 
+   margin: 0; 
+}
+.timer-header p { 
+   margin: 6px 0 0; 
+}
+.timer-page { 
+   width: 100%; 
+   max-width: 960px; 
+}
+.timer-layout { 
+   display: grid; 
+   grid-template-columns: minmax(0, 1fr) 280px; 
+   gap: 22px; align-items: start; 
+}
+.timer-panel { 
+   background: var(--surface-color); 
+   padding: 24px; 
+   border: 1px solid rgba(0,0,0,0.12); 
+   border-radius: 10px; 
+   box-shadow: 0 8px 18px rgba(0,0,0,0.08); 
+}
+.timer-panel h2 { 
+   margin: 0 0 16px; 
+   color: #333; 
+   font-size: 1.3rem; 
+}
+.timer-readout { 
+   margin: 0 0 18px; 
+   color: #333; 
+   font-size: clamp(2.3rem, 8vw, 4.5rem); 
+   font-variant-numeric: tabular-nums; 
+   letter-spacing: 0.04em; 
+   text-align: center; 
+}
+.timer-status { 
+   min-height: 1.5em; 
+   margin: 14px 0 0; 
+   text-align: center; 
+   font-weight: bold; 
+}
+.timer-actions { 
+   display: flex; 
+   gap: 10px; justify-content: center; flex-wrap: wrap; }
+.timer-actions button { 
+   flex: 1 1 120px; 
+}
+.timer-actions button[data-action="finish"] { 
+   background: #e67e22; 
+   color: white; 
+}
+.timer-actions button[data-action="finish"]:hover { 
+   background: #d35400; 
+}
+.stats { 
+   display: grid; 
+   gap: 12px; 
+   margin: 0; 
+}
+.stat { 
+   padding: 12px; 
+   border-left: 4px solid #e67e22; 
+   background: rgba(255,255,255,0.5); 
+}
+.stat dt { 
+   color: #555; 
+   font-size: 0.85rem; 
+}
+.stat dd { 
+   margin: 3px 0 0;
+   color: #222; 
+   font-size: 1.35rem; 
+   font-weight: bold; 
+   font-variant-numeric: tabular-nums; 
+}
+.attempts { 
+   max-height: 260px; 
+   overflow-y: auto; 
+   margin-top: 20px; 
+}
+.attempts h3 { 
+   margin: 0 0 10px; 
+   font-size: 1rem; 
+}
+.attempts ol { 
+   margin: 0; 
+   padding-left: 24px; 
+}
+.attempts li { 
+   padding: 4px 0; 
+   font-variant-numeric: tabular-nums; 
+}
+.timer-back { 
+   margin-bottom: 22px; 
+}
+@media (max-width: 760px) { 
+   .timer-layout { 
+      grid-template-columns: 1fr; 
+   } 
+   .timer-panel { 
+      padding: 18px; 
+   } 
+}

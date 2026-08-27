@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../../menu_style.css">
+    <title>Noted - Crossword</title>
+    <style>
+        body.crossword-body { min-height: 100vh; padding: 24px 16px 48px; }
+        .crossword-header { width: 100%; max-width: 1100px; text-align: center; margin-bottom: 22px; }
+        .crossword-header h1 { margin: 0; }
+        .crossword-header p { margin: 6px 0 0; font-size: 1rem; }
+        .crossword-page { max-width: 1100px; width: 100%; }
+        .crossword-layout { display: grid; grid-template-columns: minmax(420px, 1fr) minmax(280px, 360px); gap: 24px; align-items: start; }
+        .crossword-panel { background: var(--surface-color); padding: 24px; border: 1px solid rgba(0,0,0,0.12); border-radius: 10px; box-shadow: 0 8px 18px rgba(0,0,0,0.08); }
+        .board-panel { overflow: auto; }
+        .panel-heading { margin: 0 0 16px; color: #333; font-size: 1.25rem; }
+        .crossword-grid { border-collapse: separate; border-spacing: 3px; margin: auto; background: #111; padding: 3px; border-radius: 5px; }
+        .crossword-grid td { width: 38px; height: 38px; min-width: 38px; padding: 0; border: 0; background: #111; }
+        .crossword-grid td.cell { background: white; }
+        .cell-number { position: absolute; top: 2px; left: 3px; color: #222; font-size: 0.6rem; line-height: 1; pointer-events: none; }
+        .crossword-grid td.cell { position: relative; }
+        .crossword-grid input { box-sizing: border-box; width: 100%; height: 100%; border: 0; border-radius: 0; padding: 0; background: transparent; color: #111; font-size: 1.25rem; font-weight: bold; text-align: center; text-transform: uppercase; }
+        .crossword-grid input:focus { outline: 3px solid #e67e22; outline-offset: -3px; background: #fff4e8; }
+        .crossword-grid input:not(:placeholder-shown) { background: #fff8ef; }
+        .clues { display: grid; gap: 10px; }
+        .clue { display: grid; grid-template-columns: 70px 1fr; gap: 8px; width: 100%; box-sizing: border-box; text-align: left; padding: 11px; border: 1px solid rgba(0,0,0,0.15); background: rgba(255,255,255,0.55); color: #111; font: inherit; line-height: 1.35; border-radius: 5px; cursor: pointer; }
+        .clue:hover, .clue:focus { background: white; border-color: #e67e22; outline: none; }
+        .clue strong { color: #d35400; }
+        .crossword-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+        .crossword-actions .cs-btn { flex: 1 1 150px; text-align: center; }
+        .crossword-message { min-height: 1.5em; margin: 16px 0 0; color: #333; font-weight: bold; }
+        .crossword-back { margin-bottom: 22px; }
+        @media (max-width: 800px) { .crossword-layout { grid-template-columns: 1fr; } .crossword-panel { padding: 16px; } }
+        @media (max-width: 500px) { body.crossword-body { padding: 16px 8px 32px; } .crossword-grid { border-spacing: 2px; } .crossword-grid td { width: 29px; height: 29px; min-width: 29px; } .crossword-grid input { font-size: 1rem; } }
+    </style>
+</head>
+<body class="crossword-body">
+    <header class="crossword-header">
+        <h1>Noted!</h1>
+        <h1>Crossword</h1>
+        <p>Complete the terms using your study-set definitions.</p>
+    </header>
+    <button class="back-btn crossword-back" onclick="window.location.href='../../study_menu.html'">&#8592; Study Set Menu</button>
+
+    <main class="crossword-page">
+        <div class="crossword-layout">
+            <section class="crossword-panel board-panel" aria-label="Crossword board">
+                <table id="crosswordGame" class="crossword-grid"></table>
+                <div class="crossword-actions">
+                    <button id="checkButton" class="cs-btn">Check Answers</button>
+                    <button id="newGameButton" class="cs-btn">New Puzzle</button>
+                </div>
+                <p id="message" class="crossword-message" aria-live="polite"></p>
+            </section>
+            <aside class="crossword-panel">
+                <h2 id="setName" class="panel-heading">Study Set</h2>
+                <p>Use each definition to fill in its term.</p>
+                <div id="clues" class="clues"></div>
+            </aside>
+        </div>
+    </main>
+
+    <script src="crossword-function.js"></script>
+
+</body>
+</html>
+
+

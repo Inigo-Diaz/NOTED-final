@@ -156,7 +156,6 @@
                     <button
                         class="rename-set-btn"
                         onclick="renameSet(event, '${id}')">
-                        <img src="../../../aesthetic_tools/images/icons/Edit.png" alt="rename">
                         Rename
                     </button>
 
